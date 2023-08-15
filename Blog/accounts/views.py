@@ -1,5 +1,5 @@
 # Django imports
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import gettext_lazy as _
 from django.contrib import messages
 from django.views import View
@@ -15,6 +15,11 @@ class UserRegisterationView(View):
     template_name = 'accounts/Register.html'
     form_class = UserRegisterationForm
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            messages.error(request, _('It is non-sense to access this page while logged in'), 'danger')
+            return redirect('Home:Home')
+        return super().dispatch(request, *args, **kwargs)
     def get(self, request):
         form = self.form_class
         return render(request, self.template_name, {'form': form})
@@ -32,6 +37,12 @@ class UserRegisterationView(View):
 class UserLoginView(View):
     template_name = 'accounts/Login.html'
     form_class = UserLoginForm
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            messages.error(request, _('It is non-sense to access this page while logged in'), 'danger')
+            return redirect('Home:Home')
+        return super().dispatch(request, *args, **kwargs)
 
     def setup(self, request, *args, **kwargs):
         self.next = request.GET.get('next', None)
@@ -63,3 +74,12 @@ class UserLogoutView(LoginRequiredMixin, View):
         logout(request)
         messages.success(request, _('You have logged out successfully'), 'success')
         return redirect('Home:Home')
+
+
+class UserProfileView(LoginRequiredMixin, View):
+    template_name = 'accounts/Profile.html'
+
+    def get(self, request, username):
+        user = get_object_or_404(User, username=username)
+        return render(request, self.template_name, {'user': user})
+

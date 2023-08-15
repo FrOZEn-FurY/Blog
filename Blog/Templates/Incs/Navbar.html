@@ -10,6 +10,9 @@
 					<li class="nav-item">
 						<a class="nav-link" href="{% url 'accounts:Logout' %}">Logout</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'accounts:Profile' request.user.username %}">Profile</a>
+					</li>
 				{% else %}
 					<li class="nav-item">
 						<a class="nav-link" href="{% url 'accounts:Register' %}">Register</a>

@@ -2,6 +2,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import User
 
 
 class UserRegisterationForm(forms.Form):
@@ -35,11 +36,26 @@ class UserRegisterationForm(forms.Form):
         )
     )
 
-    def clean(self):
-        cd = super().clean()
-        if cd['password'] and cd['confpass'] and cd['password'] != cd['confpass']:
+    def clean_confpass(self):
+        password = self.cleaned_data['password']
+        confpass = self.cleaned_data['confpass']
+        if password and confpass and password != confpass:
             raise ValidationError(_('Passwords must match'))
-        return cd
+        return confpass
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        user = User.objects.filter(username=username)
+        if user:
+            raise ValidationError(_('This username already exists'))
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        user = User.objects.filter(email=email)
+        if user:
+            raise ValidationError(_('This email already exists'))
+        return email
 
 
 class UserLoginForm(forms.Form):
