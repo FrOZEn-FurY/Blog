@@ -8,14 +8,14 @@
 			<ul class="navbar-nav">
 				{% if request.user.is_authenticated %}
 					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="#">Logout</a>
+						<a class="nav-link" href="{% url 'accounts:Logout' %}">Logout</a>
 					</li>
 				{% else %}
 					<li class="nav-item">
-						<a class="nav-link" href="#">Register</a>
+						<a class="nav-link" href="{% url 'accounts:Register' %}">Register</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Login</a>
+						<a class="nav-link" href="{% url 'accounts:Login' %}">Login</a>
 					</li>
 				{% endif %}
 				<li class="nav-item dropdown">

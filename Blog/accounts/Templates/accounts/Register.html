@@ -1,0 +1,13 @@
+{% extends 'Base.html' %}
+
+{% block Head %}
+	<title>Register</title>
+{% endblock %}
+
+{% block Body %}
+	<form action="" method="post" class="col-md-6">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" value="Register" />
+	</form>
+{% endblock %}

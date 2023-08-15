@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # Local apps
     'Home.apps.HomeConfig',
+    'accounts.apps.AccountsConfig',
 
     # Third party apps
     'ckeditor',
@@ -139,3 +140,5 @@ CKEDITOR_CONFIGS = {
         'toolbar': 'full',
     }
 }
+
+LOGIN_URL = '/accounts/Login'
