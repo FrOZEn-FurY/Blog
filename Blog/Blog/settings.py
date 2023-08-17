@@ -128,17 +128,27 @@ STATICFILES_DIRS = [
     BASE_DIR / 'Static',
 ]
 
+# Media files
+
+MEDIA_URL = '/Media/'
+MEDIA_ROOT = BASE_DIR / 'Media'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# CKeditor configs
+# CKEditor configs
 
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full',
+        'extraPlugins': ','.join(
+            [
+                'html5video',
+            ]
+        ),
     }
 }
 
