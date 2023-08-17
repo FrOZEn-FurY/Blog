@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # Local apps
     'Home.apps.HomeConfig',
     'accounts.apps.AccountsConfig',
+    'Posts.apps.PostsConfig',
 
     # Third party apps
     'ckeditor',

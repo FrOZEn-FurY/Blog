@@ -8,6 +8,24 @@
 	<div style="text-align: center;">
 		<h1>{{ user.username }}</h1>
 		<h2>{{ user.email }}</h2>
-		<h4>Last login at {{ user.last_login|date:"M jS H:i:s" }}</h4>
+		<h4 style="opacity: 40%;">Last login at {{ user.last_login|date:"M jS H:i:s" }}</h4>
+		<a class="btn btn-outline-dark" href="{% url 'Posts:PostCreate' %}" style="display: inline-block;">
+			Create new post
+		</a>
+	</div>
+	<hr/>
+	<h3 style="text-align: center;"> Posts </h3>
+	<div class="card">
+		<ul class="card-body">
+			{% for post in posts %}
+				<li>
+					<a href="{{ post.get_absolute_url }}">
+						{{ post.title }}
+					</a>
+				<li/>
+			{% empty %}
+				<h3>No posts submitted so far</h3>
+			{% endfor %}
+		</ul>
 	</div>
 {% endblock %}

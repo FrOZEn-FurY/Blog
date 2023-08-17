@@ -1,0 +1,14 @@
+{% extends 'Base.html' %}
+
+{% block Head %}
+    <title>{{ post.author }}'s Post</title>
+{% endblock %}
+
+{% block Body %}
+    <h2>{{ post.title }}</h2>
+    <div class="card">
+        <p class="card-body">
+            {{ post.body|safe }}
+        </p>
+    </div>
+{% endblock %}

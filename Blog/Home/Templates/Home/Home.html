@@ -5,5 +5,22 @@
 {% endblock %}
 
 {% block Body %}
-	<h1>Home Page</h1>
+	<h1>Posts in order of newest to oldest</h1>
+	<hr/>
+	<div class="card">
+		<ul class="card-body">
+			{% for post in posts %}
+				<li>
+					<a href="{{ post.get_absolute_url }}">
+						<pre>
+							{{ post.author }}:  {{ post.title }}
+							Last updated at: {{ post.date_updated|timesince }}
+						</pre>
+					</a>
+				</li>
+			{% empty %}
+				<h3>No posts submitted so far</h3>
+			{% endfor %}
+		</ul>
+	</div>
 {% endblock %}
