@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     # Third party apps
     'ckeditor',
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -152,4 +153,8 @@ CKEDITOR_CONFIGS = {
     }
 }
 
+CKEDITOR_UPLOAD_PATH = 'PostUploads/'
+
 LOGIN_URL = '/accounts/Login'
+
+ALLOW_UNICODE_SLUGS = True

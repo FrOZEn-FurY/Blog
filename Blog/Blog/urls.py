@@ -8,5 +8,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Home.urls', namespace='Home')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
-    path('Posts/', include('Posts.urls', namespace='Posts'))
+    path('Posts/', include('Posts.urls', namespace='Posts')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

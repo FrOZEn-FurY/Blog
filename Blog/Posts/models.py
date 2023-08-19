@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 
 # Third party imports
-from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class PostModel(models.Model):
@@ -18,10 +18,11 @@ class PostModel(models.Model):
         unique=True
     )
     slug = models.SlugField(
-        max_length=100,
-        unique=True
+        max_length=150,
+        unique=True,
+        allow_unicode=True
     )
-    body = RichTextField()
+    body = RichTextUploadingField()
     date_created = models.DateTimeField(
         auto_now_add=True
     )

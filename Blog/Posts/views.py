@@ -24,7 +24,8 @@ class PostCreationView(LoginRequiredMixin, View):
             cd = form.cleaned_data
             post = PostModel(title=cd['title'], body=cd['body'])
             post.author = request.user
-            post.slug = slugify(cd['title'])
+            post.slug = slugify(cd['title'], allow_unicode=True)
+            print(post.slug)
             post.save()
             messages.success(request, _('Your post has been created successfully'), 'success')
             return redirect('accounts:Profile', request.user.username)
