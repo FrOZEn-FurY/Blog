@@ -5,7 +5,12 @@
 {% endblock %}
 
 {% block Body %}
-	<h1>Posts in order of newest to oldest</h1>
+	<form action="" method="get" class="col-md-5">
+		{{ form.as_p }}
+		<input type="submit" value="Search" />
+	</form>
+	<br/>
+	<h2>Posts in order of newest to oldest</h2>
 	<hr/>
 	<div class="card">
 		<ul class="card-body">
