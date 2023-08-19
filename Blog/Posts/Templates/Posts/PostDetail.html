@@ -6,6 +6,10 @@
 
 {% block Body %}
     <h2>{{ post.title }}</h2>
+    {% if request.user == post.author %}
+        <a class="btn btn-danger" href="{% url 'Posts:PostDelete' post.slug %}">Delete</a>
+        <a class="btn btn-info" href="{% url 'Posts:PostUpdate' post.slug %}">Update</a>
+    {% endif %}
     <div class="card">
         <p class="card-body">
             {{ post.body|safe }}
