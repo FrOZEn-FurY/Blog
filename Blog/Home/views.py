@@ -1,7 +1,6 @@
 # Django imports
 from django.shortcuts import render
 from django.views import View
-from django.db.models import Q
 
 # Local imports
 from Posts.models import PostModel

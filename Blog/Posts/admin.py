@@ -12,3 +12,4 @@ class PostModelAdmin(admin.ModelAdmin):
     prepopulated_fields = {
         'slug': ('title',),
     }
+    raw_id_fields = ('author', 'category')

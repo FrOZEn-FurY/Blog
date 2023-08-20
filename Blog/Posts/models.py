@@ -6,8 +6,17 @@ from django.contrib.auth.models import User
 # Third party imports
 from ckeditor_uploader.fields import RichTextUploadingField
 
+# Local imports
+from Categories.models import CategoryModel
+
 
 class PostModel(models.Model):
+    category = models.ForeignKey(
+        CategoryModel,
+        on_delete=models.CASCADE,
+        related_name='category',
+        default=None
+    )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -39,4 +48,4 @@ class PostModel(models.Model):
     class Meta:
         verbose_name = 'Post'
         verbose_name_plural = 'Posts'
-        ordering = ('-date_created', 'date_updated')
+        ordering = ('-date_created', '-date_updated')

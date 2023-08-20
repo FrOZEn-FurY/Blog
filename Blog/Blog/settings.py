@@ -42,10 +42,12 @@ INSTALLED_APPS = [
     'Home.apps.HomeConfig',
     'accounts.apps.AccountsConfig',
     'Posts.apps.PostsConfig',
+    'Categories.apps.CategoriesConfig',
 
     # Third party apps
     'ckeditor',
     'ckeditor_uploader',
+    'mptt',
 ]
 
 MIDDLEWARE = [
