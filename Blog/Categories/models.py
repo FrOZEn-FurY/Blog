@@ -1,5 +1,6 @@
 # Django imports
 from django.db import models
+from django.urls import reverse
 
 # Third party imports
 from mptt.models import MPTTModel
@@ -14,6 +15,8 @@ class CategoryModel(MPTTModel):
     slug = models.SlugField(
         max_length=300,
         unique=True,
+        null=True,
+        blank=True,
         allow_unicode=True
     )
     parent = TreeForeignKey(
@@ -24,9 +27,6 @@ class CategoryModel(MPTTModel):
         related_name='Parent'
     )
 
-    class MPTTMeta:
-        order_insertion_by = ('name',)
-
     class Meta:
         ordering = ('name',)
         verbose_name = 'Category'
@@ -34,3 +34,6 @@ class CategoryModel(MPTTModel):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('Categories:ShowCategoryPosts', args=(self.slug,))

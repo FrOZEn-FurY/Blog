@@ -14,13 +14,13 @@ class PostModel(models.Model):
     category = models.ForeignKey(
         CategoryModel,
         on_delete=models.CASCADE,
-        related_name='category',
+        related_name='category_posts',
         default=None
     )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='author'
+        related_name='author_posts'
     )
     title = models.CharField(
         max_length=75,

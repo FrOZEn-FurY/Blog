@@ -10,4 +10,5 @@ urlpatterns = [
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('Posts/', include('Posts.urls', namespace='Posts')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('Categories/', include('Categories.urls', namespace='Categories'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
