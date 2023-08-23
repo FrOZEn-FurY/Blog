@@ -9,6 +9,7 @@ from django.utils.text import slugify
 # Local imports
 from .models import PostModel
 from .forms import PostCreationForm
+from Categories.models import CategoryModel
 
 
 class PostCreationView(LoginRequiredMixin, View):
@@ -34,9 +35,11 @@ class PostCreationView(LoginRequiredMixin, View):
 class PostDetailView(LoginRequiredMixin, View):
     template_name = 'Posts/PostDetail.html'
 
-    def get(self, request, post_slug):
-        post = get_object_or_404(PostModel, slug=post_slug)
-        return render(request, self.template_name, {'post': post})
+    def get(self, request, post_category, post_slug):
+        category = get_object_or_404(CategoryModel, slug=post_category)
+        post = get_object_or_404(PostModel, slug=post_slug, category=category)
+        ancestors = category.get_ancestors(include_self=True)
+        return render(request, self.template_name, {'post': post, 'ancestors': ancestors})
 
 
 class PostDeleteView(LoginRequiredMixin, View):
@@ -72,7 +75,7 @@ class PostUpdateView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(instance=self.object)
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form, 'post': self.object})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, instance=self.object)

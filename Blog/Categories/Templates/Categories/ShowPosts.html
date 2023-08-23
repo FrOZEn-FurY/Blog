@@ -5,6 +5,16 @@
 {% endblock %}
 
 {% block Body %}
+	<div style="--bs-breadcrumb-divider: '->';" aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="{% url 'Home:Home' %}">Home</a></li>
+			<li class="breadcrumb-item"><a href="{% url 'Categories:Category' %}">Categories</a></li>
+			{% for anc in ancestors %}
+				<li class="breadcrumb-item"><a href="{{ anc.get_absolute_url }}">{{ anc.name }}</a></li>
+			{% endfor %}
+			<li class="breadcrumb-item active" aria-current="page">{{ current.name }}</li>
+		</ol>
+	</div>
 	{% for post in posts %}
 		<div class="card">
 			<a href="{{ post.get_absolute_url }}">

@@ -43,7 +43,7 @@ class PostModel(models.Model):
         return f'{self.author} Posted {self.title}'
 
     def get_absolute_url(self):
-        return reverse_lazy('Posts:PostDetail', args=(self.slug,))
+        return reverse_lazy('Posts:PostDetail', args=(self.category.slug, self.slug))
 
     class Meta:
         verbose_name = 'Post'

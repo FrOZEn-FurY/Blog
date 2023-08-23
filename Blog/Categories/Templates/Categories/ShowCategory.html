@@ -7,6 +7,12 @@
 {% endblock %}
 
 {% block Body %}
+	<div style="--bs-breadcrumb-divider: '->';" aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="{% url 'Home:Home' %}">Home</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Categories</li>
+		</ol>
+	</div>
 	<ul>
 		{% recursetree categories %}
 			<li>

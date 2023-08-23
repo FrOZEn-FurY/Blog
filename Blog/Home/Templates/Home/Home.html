@@ -28,4 +28,27 @@
 			{% endfor %}
 		</ul>
 	</div>
+	<div class="pagination">
+		<div class="step-links">
+			{% if posts.has_previous %}
+				<a href="{% url 'Home:Home' %}/?page=1">1</a>
+				{% if previous_page_dif > 1 %}
+					<span>...</span>
+				{% endif %}
+				<a href="{% url 'Home:Home' %}/?page={{ posts.previous_page_number }}">{{ posts.previous_page_number }}</a>
+			{% endif %}
+
+			<span class="current">
+				Page {{ posts.number }} out of {{ posts.paginator.num_pages }}
+			</span>
+
+			{% if posts.has_next %}
+				<a href="{% url 'Home:Home' %}/?page={{ posts.next_page_number }}">{{ posts.next_page_number }}</a>
+				{% if next_page_dif > 1 %}
+					<span>...</span>
+				{% endif %}
+				<a href="{% url 'Home:Home' %}/?page={{ posts.paginator.num_pages }}">{{ posts.paginator.num_pages }}</a>
+			{% endif %}
+		</div>
+	</div>
 {% endblock %}

@@ -21,9 +21,10 @@ class ShowCategoryPostsView(View):
 
     def get(self, request, category_slug):
         category = get_object_or_404(CategoryModel, slug=category_slug)
+        ancestors = category.get_ancestors()
         needed_categories = category.get_descendants(include_self=False)
         conditions = Q(category=category)
         for ctgr in needed_categories:
             conditions |= Q(category=ctgr)
         posts = PostModel.objects.filter(conditions).order_by('-date_created')
-        return render(request, self.template_name, {'posts': posts})
+        return render(request, self.template_name, {'posts': posts, 'ancestors': ancestors, 'current': category})

@@ -5,6 +5,12 @@
 {% endblock %}
 
 {% block Body %}
+	<div style="--bs-breadcrumb-divider: '->';" aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="{% url 'Home:Home' %}">Home</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Profile</li>
+		</ol>
+	</div>
 	<div style="text-align: center;">
 		<h1>{{ user.username }}</h1>
 		<h2>{{ user.email }}</h2>
