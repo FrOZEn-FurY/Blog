@@ -22,20 +22,11 @@ class HomeView(View):
         else:
             posts = PostModel.objects.all()
         posts_pages = Paginator(posts, 5)
-        page_number = int(request.GET.get('page', None))
-        if page_number == None:
-            page_number = 1
-        elif page_number < 1 or page_number > posts_pages.num_pages:
+        page_number = int(request.GET.get('page', 1))
+        if page_number < 1 or page_number > posts_pages.num_pages:
             messages.warning(request, _("The requested page does not exists"), 'danger')
             return redirect('Home:Home')
-        previous_page_dif, next_page_dif = 0, 0
-        if page_number > 1:
-            previous_page_dif = posts_pages.page(page_number).previous_page_number() - 1
-        if page_number < posts_pages.num_pages:
-            next_page_dif = posts_pages.num_pages - posts_pages.page(page_number).next_page_number()
         return render(request, self.template_name, {
             'posts': posts_pages.page(page_number),
             'form': form,
-            'previous_page_dif': previous_page_dif,
-            'next_page_dif': next_page_dif
         })

@@ -28,27 +28,26 @@
 			{% endfor %}
 		</ul>
 	</div>
-	<div class="pagination">
-		<div class="step-links">
-			{% if posts.has_previous %}
-				<a href="{% url 'Home:Home' %}/?page=1">1</a>
-				{% if previous_page_dif > 1 %}
-					<span>...</span>
-				{% endif %}
-				<a href="{% url 'Home:Home' %}/?page={{ posts.previous_page_number }}">{{ posts.previous_page_number }}</a>
-			{% endif %}
-
-			<span class="current">
-				Page {{ posts.number }} out of {{ posts.paginator.num_pages }}
-			</span>
-
-			{% if posts.has_next %}
-				<a href="{% url 'Home:Home' %}/?page={{ posts.next_page_number }}">{{ posts.next_page_number }}</a>
-				{% if next_page_dif > 1 %}
-					<span>...</span>
-				{% endif %}
-				<a href="{% url 'Home:Home' %}/?page={{ posts.paginator.num_pages }}">{{ posts.paginator.num_pages }}</a>
-			{% endif %}
-		</div>
-	</div>
+	<br/>
+	<nav aria-label="...">
+        <ul class="pagination">
+            <li class="page-item {% if not posts.has_previous %} disabled {% endif %}">
+                <a class="page-link"
+                   href="{% url 'Home:Home' %}?page={% if posts.has_previous %}{{ posts.previous_page_number }}{% else %}1{% endif %}">
+	                Previous
+                </a>
+            </li>
+            {% for pages in posts.paginator.page_range %}
+	            <li class="page-item {% if posts.number == pages %} active {% endif %}" aria-current="page">
+	                <a class="page-link" href="{% url 'Home:Home' %}?page={{ pages }}">{{ pages }}</a>
+	            </li>
+	        {% endfor %}
+            <li class="page-item {% if not posts.has_next %} disabled {% endif %}">
+                <a class="page-link"
+                   href="{% url 'Home:Home' %}?page={% if posts.has_next %}{{ posts.next_page_number }}{% else %}{{ posts.number }}{% endif %}">
+	                Next
+                </a>
+            </li>
+        </ul>
+	</nav>
 {% endblock %}
