@@ -5,6 +5,16 @@
 {% endblock %}
 
 {% block Body %}
+	<div class="card" style="display: inline-block; float: right;">
+		<h2 class="card-header">Recent Posts From This Category</h2>
+		<ul class="card-body">
+			{% for post in recent %}
+				<li>
+					<a href="{{ post.get_absulote_url }}" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">{{ post.author }}: {{ post.title }}</a>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
     <div style="--bs-breadcrumb-divider: '->';" aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="{% url 'Home:Home' %}">Home</a></li>
@@ -15,12 +25,15 @@
 			<li class="breadcrumb-item active" aria-current="page">{{ post.title }}</li>
 		</ol>
 	</div>
-    <h2>{{ post.title }}</h2>
+    <h2 style="display: inline-block;">{{ post.title }}</h2>
     {% if request.user == post.author %}
+		<br/>
         <a class="btn btn-danger" href="{% url 'Posts:PostDelete' post.slug %}">Delete</a>
         <a class="btn btn-info" href="{% url 'Posts:PostUpdate' post.slug %}">Update</a>
+		<br/>
+		<br/>
     {% endif %}
-    <div class="card">
+    <div class="card" style="display: inline-block; width: 65%;">
         <p class="card-body">
             {{ post.body|safe }}
         </p>

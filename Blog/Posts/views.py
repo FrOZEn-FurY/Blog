@@ -1,10 +1,11 @@
 # Django imports
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
+from django.db.models import Q
 
 # Local imports
 from .models import PostModel
@@ -39,7 +40,11 @@ class PostDetailView(LoginRequiredMixin, View):
         category = get_object_or_404(CategoryModel, slug=post_category)
         post = get_object_or_404(PostModel, slug=post_slug, category=category)
         ancestors = category.get_ancestors(include_self=True)
-        return render(request, self.template_name, {'post': post, 'ancestors': ancestors})
+        conditions = Q(category=category)
+        for ctgr in category.get_descendants():
+            conditions |= Q(category=ctgr)
+        recent = get_list_or_404(PostModel, conditions)
+        return render(request, self.template_name, {'post': post, 'ancestors': ancestors, 'recent': recent[:3]})
 
 
 class PostDeleteView(LoginRequiredMixin, View):
