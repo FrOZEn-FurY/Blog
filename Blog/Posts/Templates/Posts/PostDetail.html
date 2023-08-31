@@ -1,4 +1,5 @@
 {% extends 'Base.html' %}
+{% load mptt_tags %}
 
 {% block Head %}
     <title>{{ post.author }}'s Post</title>
@@ -38,4 +39,31 @@
             {{ post.body|safe }}
         </p>
     </div>
+	<hr/>
+	<h1 style="text-align: center;">Comments</h1>
+	{% if comments %}
+		{% recursetree comments %}
+			<li class="card {% if node.get_ancestors.count|divisibleby:'2' %} text-bg-dark {% else %} text-bg-primary {% endif %} "
+				style="margin-right: 20px;">
+					<h3 class="card-header">{{ node.author }}
+						<span style="opacity: 50%; font-size: 15px;"> Updated at: {{ node.date_updated|date:"M jS H:i:s" }}</span>
+						<a class="btn btn-outline-info" href="{% url 'Posts:AddReply' post.slug node.id %}">Reply</a>
+					</h3>
+					<p style="padding-left: 5px;">{{ node.body|safe }}</p>
+					{% if not node.is_leaf_node %}
+						<ul class="children">
+							{{ children }}
+						</ul>
+					{% endif %}
+			</li>
+			<br/>
+		{% endrecursetree %}
+	{% else %}
+		<h3>No comments submitted yet</h3>
+		<br/>
+	{% endif %}
+	<br/>
+	<h2>Submit your comments</h2>
+	<a class="btn btn-dark" href="{% url 'Posts:AddComment' post.slug %}">Add Comment</a>
+	<br/><br/>
 {% endblock %}

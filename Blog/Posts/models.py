@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 
 # Third party imports
 from ckeditor_uploader.fields import RichTextUploadingField
+from ckeditor.fields import RichTextField
+from mptt.fields import TreeForeignKey
+from mptt.models import MPTTModel
 
 # Local imports
 from Categories.models import CategoryModel
@@ -49,3 +52,41 @@ class PostModel(models.Model):
         verbose_name = 'Post'
         verbose_name_plural = 'Posts'
         ordering = ('-date_created', '-date_updated')
+
+
+class CommentsModel(MPTTModel):
+    post = models.ForeignKey(
+        PostModel,
+        on_delete=models.CASCADE,
+        related_name='post_comment'
+    )
+    parent = TreeForeignKey(
+        'self',
+        on_delete=models.CASCADE,
+        related_name='parent_comment',
+        null=True,
+        blank=True
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='author'
+    )
+    date_created = models.DateTimeField(
+        auto_now_add=True
+    )
+    date_updated = models.DateTimeField(
+        auto_now=True
+    )
+    body = RichTextField(
+        config_name="Comments"
+    )
+
+    def __str__(self):
+        return f'{self.author} commented on {self.post}'
+
+    class Meta:
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
+        ordering = ('-date_updated', '-date_created')
+

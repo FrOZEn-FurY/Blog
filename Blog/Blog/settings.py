@@ -152,6 +152,38 @@ CKEDITOR_CONFIGS = {
                 'html5video',
             ]
         ),
+    },
+    'Comments': {
+        'toolbar': [
+            {
+                'name': 'Clipboard',
+                'items': ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+            },
+            {
+                'name': 'Editing',
+                'items': ['Find', 'Replace', '-', 'SelectAll']
+            },
+            {
+                'name': 'BasicStyles',
+                'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']
+            },
+            {
+                'name': 'styles',
+                'items': ['Styles', 'Format', 'Font', 'FontSize']
+            },
+            {
+                'name': 'colors',
+                'items': ['TextColor', 'BGColor']
+            },
+            {
+                'name': 'paragraph',
+                'items': [
+                    'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-',
+                    'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl',
+                    'Language'
+                ]
+            },
+        ],
     }
 }
 
