@@ -21,7 +21,7 @@ class HomeView(View):
             posts = PostModel.objects.filter(title__contains=search)
         else:
             posts = PostModel.objects.all()
-        posts_pages = Paginator(posts, 5)
+        posts_pages = Paginator(posts, 20)
         page_number = int(request.GET.get('page', 1))
         if page_number < 1 or page_number > posts_pages.num_pages:
             messages.warning(request, _("The requested page does not exists"), 'danger')

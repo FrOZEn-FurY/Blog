@@ -9,6 +9,7 @@ class SearchForm(forms.Form):
                 'class': 'form-control',
                 'placeholder': 'Search in titles',
             }
-        )
+        ),
+        required=False
     )
 
