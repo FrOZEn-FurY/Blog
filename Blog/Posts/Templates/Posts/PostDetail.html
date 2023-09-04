@@ -3,19 +3,14 @@
 
 {% block Head %}
     <title>{{ post.author }}'s Post</title>
+	<style>
+		.button-link-design a:hover {
+			transition: background-color 0.3s ease;
+		}
+	</style>
 {% endblock %}
 
 {% block Body %}
-	<div class="card" style="display: inline-block; float: right;">
-		<h2 class="card-header">Recent Posts From This Category</h2>
-		<ul class="card-body">
-			{% for post in recent %}
-				<li>
-					<a href="{{ post.get_absulote_url }}" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">{{ post.author }}: {{ post.title }}</a>
-				</li>
-			{% endfor %}
-		</ul>
-	</div>
     <div style="--bs-breadcrumb-divider: '->';" aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="{% url 'Home:Home' %}">Home</a></li>
@@ -26,7 +21,19 @@
 			<li class="breadcrumb-item active" aria-current="page">{{ post.title }}</li>
 		</ol>
 	</div>
-    <h2 style="display: inline-block;">{{ post.title }}</h2>
+	<div class="card" style="display: inline-block; float: right;">
+		<h2 class="card-header">Recent Posts From This Category</h2>
+		<ul class="card-body">
+			{% for post in recent %}
+				<li>
+					<a href="{{ post.get_absulote_url }}" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+						{{ post.author }}: {{ post.title }}
+					</a>
+				</li>
+			{% endfor %}
+		</ul>
+	</div><br/><br/>
+    <h2 style="display: inline-block; text-align: center; margin-left: 460px;">{{ post.title }}</h2>
     {% if request.user == post.author %}
 		<br/>
         <a class="btn btn-danger" href="{% url 'Posts:PostDelete' post.slug %}">Delete</a>
@@ -43,13 +50,13 @@
 	<h1 style="text-align: center;">Comments</h1>
 	{% if comments %}
 		{% recursetree comments %}
-			<li class="card {% if node.get_ancestors.count|divisibleby:'2' %} text-bg-dark {% else %} text-bg-primary {% endif %} "
+			<li class="button-link-design card {% if node.get_ancestors.count|divisibleby:'2' %} text-bg-dark {% else %} text-bg-primary {% endif %} "
 				style="margin-right: 20px;">
-					<h3 class="card-header">{{ node.author }}
+					<h3 class="card-body">{{ node.author }}
 						<span style="opacity: 50%; font-size: 15px;"> Updated at: {{ node.date_updated|date:"M jS H:i:s" }}</span>
 						<a class="btn btn-outline-info" href="{% url 'Posts:AddReply' post.slug node.id %}">Reply</a>
 					</h3>
-					<p style="padding-left: 5px;">{{ node.body|safe }}</p>
+					<p class="card-text" style="padding-left: 5px;">{{ node.body|safe }}</p>
 					{% if not node.is_leaf_node %}
 						<ul class="children">
 							{{ children }}
@@ -62,8 +69,10 @@
 		<h3>No comments submitted yet</h3>
 		<br/>
 	{% endif %}
-	<br/>
-	<h2>Submit your comments</h2>
-	<a class="btn btn-dark" href="{% url 'Posts:AddComment' post.slug %}">Add Comment</a>
+	<hr/>
+	<div class="button-link-design" style="text-align: center;">
+		<h2>Submit your comments</h2>
+		<a class="btn btn-dark" href="{% url 'Posts:AddComment' post.slug %}">Add Comment</a>
+	</div>
 	<br/><br/>
 {% endblock %}
