@@ -33,31 +33,29 @@
 			{% endfor %}
 		</ul>
 	</div>
-	{% if Liked %}
-		<a class="btn btn-danger button-link-design mb-2 position-relative" href="{% url 'Posts:Like' post.slug %}">
-			Dislike
-			<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
-				{{ Likes }}
-                <span class="visually-hidden">unread messages</span>
-            </span>
-		</a>
-	{% else %}
-		<a class="btn btn-info button-link-design mb-2 position-relative" href="{% url 'Posts:Like' post.slug %}">
-			Like
-			<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
-				{{ Likes }}
-                <span class="visually-hidden">unread messages</span>
-            </span>
-		</a>
-	{% endif %}<br/>
-    <h2 style="display: inline-block; text-align: center; margin-left: 460px;">{{ post.title }}</h2>
     {% if request.user == post.author %}
-		<br/>
         <a class="btn btn-danger" href="{% url 'Posts:PostDelete' post.slug %}">Delete</a>
         <a class="btn btn-info" href="{% url 'Posts:PostUpdate' post.slug %}">Update</a>
-		<br/>
-		<br/>
-    {% endif %}
+	{% else %}
+		{% if Liked %}
+			<a class="btn btn-danger button-link-design mb-2 position-relative" href="{% url 'Posts:Like' post.slug %}">
+				Dislike
+				<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
+					{{ Likes }}
+	                <span class="visually-hidden">unread messages</span>
+	            </span>
+			</a>
+		{% else %}
+			<a class="btn btn-info button-link-design mb-2 position-relative" href="{% url 'Posts:Like' post.slug %}">
+				Like
+				<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
+					{{ Likes }}
+	                <span class="visually-hidden">unread messages</span>
+	            </span>
+			</a>
+		{% endif %}
+    {% endif %}<br/>
+	<h2 style="display: inline-block; text-align: center; margin-left: 460px;">{{ post.title }}</h2>
     <div class="card" style="display: inline-block; width: 65%;">
         <p class="card-body">
             {{ post.body|safe }}
