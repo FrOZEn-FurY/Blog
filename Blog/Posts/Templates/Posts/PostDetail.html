@@ -7,6 +7,25 @@
 		.button-link-design a:hover {
 			transition: background-color 0.3s ease;
 		}
+		.breadcrumb {
+			background-color: saddlebrown;
+			padding: 2px 8px;
+			horiz-align: center;
+			vertical-align: center;
+			border-radius: 25px;
+		}
+		.breadcrumb a {
+			text-decoration: none;
+			color: limegreen;
+			padding: 2px;
+		}
+		.breadcrumb a:hover {
+			transition: color 0.3s ease-in-out;
+			color: darkolivegreen;
+		}
+		#Current-page {
+			color: cadetblue;
+		}
 	</style>
 {% endblock %}
 
@@ -18,7 +37,7 @@
             {% for anc in ancestors %}
 			    <li class="breadcrumb-item"><a href="{{ anc.get_absolute_url }}">{{ anc.name }}</a></li>
             {% endfor %}
-			<li class="breadcrumb-item active" aria-current="page">{{ post.title }}</li>
+			<li id="Current-page" class="breadcrumb-item active" aria-current="page">{{ post.title }}</li>
 		</ol>
 	</div>
 	<div class="card" style="display: inline-block; float: right;">

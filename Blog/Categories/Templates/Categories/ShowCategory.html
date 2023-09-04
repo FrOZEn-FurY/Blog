@@ -15,6 +15,25 @@
 			transition: color 0.3s ease;
 			color: darkgray;
 		}
+		.breadcrumb {
+			background-color: saddlebrown;
+			padding: 2px 8px;
+			horiz-align: center;
+			vertical-align: center;
+			border-radius: 25px;
+		}
+		.breadcrumb a {
+			text-decoration: none;
+			color: limegreen;
+			padding: 2px;
+		}
+		.breadcrumb a:hover {
+			transition: color 0.3s ease-in-out;
+			color: darkolivegreen;
+		}
+		#Current-page {
+			color: cadetblue;
+		}
 	</style>
 {% endblock %}
 
@@ -22,7 +41,7 @@
 	<div style="--bs-breadcrumb-divider: '->';" aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="{% url 'Home:Home' %}">Home</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Categories</li>
+			<li id="Current-page" class="breadcrumb-item active" aria-current="page">Categories</li>
 		</ol>
 	</div>
 	<ul id="Category">

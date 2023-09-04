@@ -2,6 +2,35 @@
 
 {% block Head %}
 	<title>Category Posts</title>
+	<style>
+		.breadcrumb {
+			background-color: saddlebrown;
+			padding: 2px 8px;
+			horiz-align: center;
+			vertical-align: center;
+			border-radius: 25px;
+		}
+		.breadcrumb a {
+			text-decoration: none;
+			color: limegreen;
+			padding: 2px;
+		}
+		.breadcrumb a:hover {
+			transition: color 0.3s ease-in-out;
+			color: darkolivegreen;
+		}
+		#Current-page {
+			color: cadetblue;
+		}
+		.list-group-item {
+			color: darkblue;
+			font-size: 20px;
+		}
+		.list-group-item:hover {
+			transition: color 0.3s ease;
+			color: deepskyblue;
+		}
+	</style>
 {% endblock %}
 
 {% block Body %}
@@ -12,17 +41,17 @@
 			{% for anc in ancestors %}
 				<li class="breadcrumb-item"><a href="{{ anc.get_absolute_url }}">{{ anc.name }}</a></li>
 			{% endfor %}
-			<li class="breadcrumb-item active" aria-current="page">{{ current.name }}</li>
+			<li id="Current-page" class="breadcrumb-item active" aria-current="page">{{ current.name }}</li>
 		</ol>
 	</div>
-	{% for post in posts %}
-		<div class="card">
-			<a href="{{ post.get_absolute_url }}">
+	<div class="list-group list-group-flush">
+		{% for post in posts %}
+			<a class="list-group-item" href="{{ post.get_absolute_url }}">
 				<p>
 					{{ post.author }}: {{ post.title|truncatewords:5 }} <br/>
 					{{ post.date_updated|timesince }}
 				</p>
 			</a>
-		</div>
-	{% endfor %}
+		{% endfor %}
+	</div>
 {% endblock %}
