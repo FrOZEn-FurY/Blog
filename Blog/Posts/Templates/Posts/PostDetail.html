@@ -32,7 +32,24 @@
 				</li>
 			{% endfor %}
 		</ul>
-	</div><br/><br/>
+	</div>
+	{% if Liked %}
+		<a class="btn btn-danger button-link-design mb-2 position-relative" href="{% url 'Posts:Like' post.slug %}">
+			Dislike
+			<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
+				{{ Likes }}
+                <span class="visually-hidden">unread messages</span>
+            </span>
+		</a>
+	{% else %}
+		<a class="btn btn-info button-link-design mb-2 position-relative" href="{% url 'Posts:Like' post.slug %}">
+			Like
+			<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
+				{{ Likes }}
+                <span class="visually-hidden">unread messages</span>
+            </span>
+		</a>
+	{% endif %}<br/>
     <h2 style="display: inline-block; text-align: center; margin-left: 460px;">{{ post.title }}</h2>
     {% if request.user == post.author %}
 		<br/>
@@ -45,7 +62,7 @@
         <p class="card-body">
             {{ post.body|safe }}
         </p>
-    </div>
+    </div><br/><br/><br/>
 	<hr/>
 	<h1 style="text-align: center;">Comments</h1>
 	{% if comments %}
@@ -66,7 +83,7 @@
 			<br/>
 		{% endrecursetree %}
 	{% else %}
-		<h3>No comments submitted yet</h3>
+		<h3 style="text-align: center;">No comments submitted yet</h3>
 		<br/>
 	{% endif %}
 	<hr/>

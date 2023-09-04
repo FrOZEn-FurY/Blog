@@ -90,3 +90,27 @@ class CommentsModel(MPTTModel):
         verbose_name_plural = 'Comments'
         ordering = ('-date_updated', '-date_created')
 
+
+class LikeModel(models.Model):
+    liker = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='liker'
+    )
+    post = models.ForeignKey(
+        PostModel,
+        on_delete=models.CASCADE,
+        related_name='post'
+    )
+    date_liked = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+        return f'{ self.liker.username } liked { self.post.title }'
+
+    class Meta:
+        ordering = ('date_liked',)
+        verbose_name = 'Like'
+        verbose_name_plural = 'Likes'
+

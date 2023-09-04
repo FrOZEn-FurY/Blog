@@ -8,7 +8,7 @@ from django.utils.text import slugify
 from django.db.models import Q
 
 # Local imports
-from .models import PostModel, CommentsModel
+from .models import PostModel, CommentsModel, LikeModel
 from .forms import PostCreationForm, AddCommentForm
 from Categories.models import CategoryModel
 
@@ -45,8 +45,11 @@ class PostDetailView(LoginRequiredMixin, View):
             conditions |= Q(category=ctgr)
         recent = get_list_or_404(PostModel, conditions)
         comments = CommentsModel.objects.filter(post=post)
+        liked = LikeModel.objects.filter(liker=request.user, post=post).exists()
+        likes = LikeModel.objects.filter(liker=request.user, post=post).count()
         return render(request, self.template_name,
-                      {'post': post, 'ancestors': ancestors, 'recent': recent[:3], 'comments': comments})
+                      {'post': post, 'ancestors': ancestors, 'recent': recent[:3], 'comments': comments,
+                       'Liked': liked, 'Likes': likes})
 
 
 class PostDeleteView(LoginRequiredMixin, View):
@@ -150,3 +153,26 @@ class AddReplyView(LoginRequiredMixin, View):
             messages.success(request, _('Your reply has been submitted successfully'), 'success')
             return redirect('Posts:PostDetail', self.object.category, self.object.slug)
         return render(request, self.template_name, {'form': form})
+
+
+class LikePostView(LoginRequiredMixin, View):
+    def setup(self, request, *args, **kwargs):
+        self.post_object = get_object_or_404(PostModel, slug=kwargs['post_slug'])
+        return super().setup(request, *args, **kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user == self.post_object.author:
+            messages.warning(request, _("You can't like your own posts"), 'danger')
+            return redirect('Posts:PostDetail', self.post_object.category, self.post_object.slug)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        liked = LikeModel.objects.filter(liker=request.user, post=self.post_object).exists()
+        if not liked:
+            LikeModel.objects.create(liker=request.user, post=self.post_object)
+            messages.success(request, _(f'You liked the post { self.post_object.title } successfully'), 'success')
+        else:
+            like = get_object_or_404(LikeModel, liker=request.user, post=self.post_object)
+            like.delete()
+            messages.success(request, _(f'You disliked the post { self.post_object.title } successfully'), 'success')
+        return redirect('Posts:PostDetail', self.post_object.category, self.post_object.slug)
