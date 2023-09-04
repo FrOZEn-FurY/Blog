@@ -44,6 +44,7 @@ class PostDetailView(LoginRequiredMixin, View):
         for ctgr in category.get_descendants():
             conditions |= Q(category=ctgr)
         recent = get_list_or_404(PostModel, conditions)
+        recent.remove(post)
         comments = CommentsModel.objects.filter(post=post)
         liked = LikeModel.objects.filter(liker=request.user, post=post).exists()
         likes = LikeModel.objects.filter(liker=request.user, post=post).count()

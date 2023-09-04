@@ -26,7 +26,7 @@
 		<ul class="card-body">
 			{% for post in recent %}
 				<li>
-					<a href="{{ post.get_absulote_url }}" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+					<a href="{{ post.get_absolute_url }}" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
 						{{ post.author }}: {{ post.title }}
 					</a>
 				</li>
@@ -64,22 +64,24 @@
 	<hr/>
 	<h1 style="text-align: center;">Comments</h1>
 	{% if comments %}
-		{% recursetree comments %}
-			<li class="button-link-design card {% if node.get_ancestors.count|divisibleby:'2' %} text-bg-dark {% else %} text-bg-primary {% endif %} "
-				style="margin-right: 20px;">
-					<h3 class="card-body">{{ node.author }}
-						<span style="opacity: 50%; font-size: 15px;"> Updated at: {{ node.date_updated|date:"M jS H:i:s" }}</span>
-						<a class="btn btn-outline-info" href="{% url 'Posts:AddReply' post.slug node.id %}">Reply</a>
-					</h3>
-					<p class="card-text" style="padding-left: 5px;">{{ node.body|safe }}</p>
-					{% if not node.is_leaf_node %}
-						<ul class="children">
-							{{ children }}
-						</ul>
-					{% endif %}
-			</li>
-			<br/>
-		{% endrecursetree %}
+		<ul>
+			{% recursetree comments %}
+				<li class="button-link-design card {% if node.get_ancestors.count|divisibleby:'2' %} text-bg-dark {% else %} text-bg-primary {% endif %} "
+					style="margin-right: 20px;">
+						<h3 class="card-body">{{ node.author }}
+							<span style="opacity: 50%; font-size: 15px;"> Updated at: {{ node.date_updated|date:"M jS H:i:s" }}</span>
+							<a class="btn btn-outline-info" href="{% url 'Posts:AddReply' post.slug node.id %}">Reply</a>
+						</h3>
+						<p class="card-text" style="padding-left: 5px;">{{ node.body|safe }}</p>
+						{% if not node.is_leaf_node %}
+							<ul class="children">
+								{{ children }}
+							</ul>
+						{% endif %}
+				</li>
+				<br/>
+			{% endrecursetree %}
+		</ul>
 	{% else %}
 		<h3 style="text-align: center;">No comments submitted yet</h3>
 		<br/>
