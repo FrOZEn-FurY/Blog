@@ -9,23 +9,38 @@
 		a:hover {
 			transition: background-color 0.3s ease-in-out;
 		}
+		hr + p {
+			text-align: center;
+			margin: 5px;
+			padding: 20px;
+			font-size: 20px;
+		}
 	</style>
 {% endblock %}
 
 {% block Body %}
 	<form action="" method="get" class="col-md-5">
 		{{ form.as_p }}
-		<input class="btn btn-outline-dark" style="border: 1px solid #1c39bb; border-radius: 15px;" type="submit" value="Search" />
+		<input class="btn btn-outline-dark" type="submit" value="Search" />
 	</form>
-	<br/>
-	<h2>Posts in order of newest to oldest</h2>
+	{% if posts.number == 1 %}
+		<hr/>
+			<p>
+				This is a training project, A blog site<br/>
+				Created by FrOZEn_FurY
+			</p>
+		<hr/>
+	{% else %}
+		<br/>
+	{% endif %}
+	<h2 style="text-align: center;">Recent Posts</h2>
 	<hr/>
 		{% for post in posts %}
 			<div class="card" style="width: 17rem; display: inline-block; margin: 10px;" id="Post">
 				<div class="card-body">
-					<h2 class="card-title">{{ post.title|truncatechars:15 }}</h2>
+					<h2 class="card-title">{{ post.title|truncatechars:10 }}</h2>
 					<h4 class="card-subtitle mb-4 text-body-secondary" style="font-size: 12px;">Last updated {{ post.date_updated|timesince }} ago</h4>
-					<p class="card-text">{{ post.body|truncatechars:30|safe }}</p>
+					<p class="card-text">{{ post.body|truncatechars:25|safe }}</p>
 					<a class="card-link btn btn-outline-primary mb-2" href="{{ post.get_absolute_url }}">Go to post</a><br/>
 					<a class="card-link btn btn-outline-secondary" href="{% url 'accounts:Profile' post.author.username %}">
 						Go to author's profile
@@ -36,7 +51,7 @@
 			<h3>No posts submitted so far</h3>
 		{% endfor %}
 	<nav class="mt-4" aria-label="...">
-        <ul class="pagination">
+        <ul class="pagination justify-content-center">
             <li class="page-item {% if not posts.has_previous %} disabled {% endif %}">
                 <a class="page-link"
                    href="{% url 'Home:Home' %}?page={% if posts.has_previous %}{{ posts.previous_page_number }}{% else %}1{% endif %}">

@@ -1,0 +1,30 @@
+{% extends "Base.html" %}
+
+{% block Head %}
+	<title>Following List</title>
+	<style>
+		a {
+			text-decoration: none;
+			color: darkblue;
+			padding: 3px;
+			font-size: 23px;
+		}
+		a:hover {
+			transition: color 0.5s ease;
+			color: darkcyan;
+		}
+	</style>
+{% endblock %}
+
+{% block Body %}
+	<h2>Followings of {{ user.username }}: </h2>
+	<div id="posts_list" class="card">
+		<ul class="list-group list-group-flush">
+			{% for follow in list %}
+		        <li class="list-group-item"><a href="{% url 'accounts:Profile' follow.following %}">{{ follow.following }}</a></li>
+			{% empty %}
+				<li class="list-group-item">No followings</li>
+			{% endfor %}
+		</ul>
+	</div>
+{% endblock %}

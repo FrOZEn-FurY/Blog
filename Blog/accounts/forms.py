@@ -73,3 +73,29 @@ class UserLoginForm(forms.Form):
             }
         )
     )
+
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email')
+
+        widgets = {
+            'username': forms.TextInput(
+              attrs={
+                  'class': 'form-control',
+              }
+            ),
+            'email': forms.EmailInput(
+                attrs={
+                    'class': 'form-control',
+                }
+            ),
+        }
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        similarity = User.objects.filter(email=email).exists()
+        if similarity:
+            raise ValidationError(_('The email you entered is already in use'))
+        return email

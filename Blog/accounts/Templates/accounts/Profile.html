@@ -2,6 +2,18 @@
 
 {% block Head %}
 	<title>{{ user.username }}'s Profile</title>
+	<style>
+		#posts_list a {
+			text-decoration: none;
+			color: darkblue;
+			padding: 3px;
+			font-size: 23px;
+		}
+		#posts_list a:hover {
+			transition: color 0.5s ease;
+			color: darkcyan;
+		}
+	</style>
 {% endblock %}
 
 {% block Body %}
@@ -11,26 +23,42 @@
 			<li class="breadcrumb-item active" aria-current="page">Profile</li>
 		</ol>
 	</div>
-	<div style="text-align: center;">
-		<h1>{{ user.username }}</h1>
-		<h2>{{ user.email }}</h2>
-		<h4 style="opacity: 40%;">Last login at {{ user.last_login|date:"M jS H:i:s" }}</h4>
-		<a class="btn btn-outline-dark" href="{% url 'Posts:PostCreate' %}" style="display: inline-block;">
-			Create new post
-		</a>
+		<div class="dropstart btn-group" style="float: right; margin-right: 10px;">
+	        <button class="btn btn-primary dropdown-toggle btn-lg" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+	            Actions
+	        </button>
+			<ul class="dropdown-menu">
+				{% if request.user == user %}
+		            <li><a class="dropdown-item" href="{% url 'Posts:PostCreate' %}">Create new post</a></li>
+		            <li><a class="dropdown-item" href="{% url 'accounts:EditProfile' request.user.username %}">Edit profile</a></li>
+		            <li><a class="dropdown-item" href="{% url 'accounts:DeleteUser' request.user.username %}">Delete account</a></li>
+					<li><hr class="dropdown-divider" /></li>
+				{% endif %}
+				<li><a class="dropdown-item" href="{% url 'accounts:Followers' user.username %}">Followers list</a></li>
+				<li><a class="dropdown-item" href="{% url 'accounts:Followings' user.username %}">Following list</a></li>
+	        </ul>
+		</div>
+	{% if Follow and request.user != user %}
+		<a class="btn btn-danger btn-lg" style="float: right; margin-right: 5px;" href="{% url 'accounts:Unfollow' user.username %}">Unfollow</a>
+	{% elif not Follow and request.user != user %}
+		<a class="btn btn-success btn-lg" style="float: right; margin-right: 5px;" href="{% url 'accounts:Follow' user.username %}">Follow</a>
+	{% endif %}
+	<div style="display: inline-block;">
+		<h3 style=" display: inline-block;">Username: </h3>
+		<p style="font-size: 25px; display: inline-block;"> {{ user.username }}</p><br/>
+		<h2 style="display: inline-block;">Email address: </h2>
+		<p style="font-size: 25px; display: inline-block;">{{ user.email }}</p><br/>
+		<span style="opacity: 40%;">Last login at {{ user.last_login|date:"M jS H:i:s" }}</span><br/><br/>
 	</div>
+
 	<hr/>
 	<h3 style="text-align: center;"> Posts </h3>
-	<div class="card">
-		<ul class="card-body">
+	<div id="posts_list" class="card">
+		<ul class="list-group list-group-flush">
 			{% for post in posts %}
-				<li>
-					<a href="{{ post.get_absolute_url }}">
-						{{ post.title }}
-					</a>
-				<li/>
+		        <li class="list-group-item">Post number {{ forloop.counter }} -> <a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
 			{% empty %}
-				<h3>No posts submitted so far</h3>
+				<li class="list-group-item">No posts submitted so far</li>
 			{% endfor %}
 		</ul>
 	</div>

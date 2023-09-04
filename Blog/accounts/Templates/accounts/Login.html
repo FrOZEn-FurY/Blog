@@ -2,12 +2,17 @@
 
 {% block Head %}
 	<title>Login</title>
+	<style>
+		input:hover {
+			transition: background-color 0.3s ease-in-out;
+		}
+	</style>
 {% endblock %}
 
 {% block Body %}
 	<form action="" method="post" class="col-md-6">
 		{% csrf_token %}
 		{{ form.as_p }}
-		<input type="submit" value="Login" />
+		<input class="btn btn-outline-dark" type="submit" value="Login" />
 	</form>
 {% endblock %}
